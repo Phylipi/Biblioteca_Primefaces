@@ -11,11 +11,12 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author Alison
+ * @author GustavoSantos
  */
 @Stateless
 public class AutorFacade extends AbstractFacade<Autor> {
-    @PersistenceContext(unitName = "BibliotechPU")
+
+    @PersistenceContext(unitName = "bibliotecaPU")
     private EntityManager em;
 
     @Override

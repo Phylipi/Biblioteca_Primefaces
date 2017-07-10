@@ -17,23 +17,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("livroController")
+@Named("mensagemController")
 @SessionScoped
-public class LivroController implements Serializable {
+public class MensagemController implements Serializable {
 
     @EJB
-    private modelo.LivroFacade ejbFacade;
-    private List<Livro> items = null;
-    private Livro selected;
+    private modelo.MensagemFacade ejbFacade;
+    private List<Mensagem> items = null;
+    private Mensagem selected;
 
-    public LivroController() {
+    public MensagemController() {
     }
 
-    public Livro getSelected() {
+    public Mensagem getSelected() {
         return selected;
     }
 
-    public void setSelected(Livro selected) {
+    public void setSelected(Mensagem selected) {
         this.selected = selected;
     }
 
@@ -43,36 +43,36 @@ public class LivroController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private LivroFacade getFacade() {
+    private MensagemFacade getFacade() {
         return ejbFacade;
     }
 
-    public Livro prepareCreate() {
-        selected = new Livro();
+    public Mensagem prepareCreate() {
+        selected = new Mensagem();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("LivroCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("MensagemCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("LivroUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("MensagemUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("LivroDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("MensagemDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Livro> getItems() {
+    public List<Mensagem> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -107,29 +107,29 @@ public class LivroController implements Serializable {
         }
     }
 
-    public Livro getLivro(java.lang.Integer id) {
+    public Mensagem getMensagem(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<Livro> getItemsAvailableSelectMany() {
+    public List<Mensagem> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Livro> getItemsAvailableSelectOne() {
+    public List<Mensagem> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Livro.class)
-    public static class LivroControllerConverter implements Converter {
+    @FacesConverter(forClass = Mensagem.class)
+    public static class MensagemControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            LivroController controller = (LivroController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "livroController");
-            return controller.getLivro(getKey(value));
+            MensagemController controller = (MensagemController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "mensagemController");
+            return controller.getMensagem(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -149,11 +149,11 @@ public class LivroController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Livro) {
-                Livro o = (Livro) object;
+            if (object instanceof Mensagem) {
+                Mensagem o = (Mensagem) object;
                 return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Livro.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Mensagem.class.getName()});
                 return null;
             }
         }

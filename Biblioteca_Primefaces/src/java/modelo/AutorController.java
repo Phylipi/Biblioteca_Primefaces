@@ -10,14 +10,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@ManagedBean(name = "autorController")
+@Named("autorController")
 @SessionScoped
 public class AutorController implements Serializable {
 
@@ -107,6 +107,10 @@ public class AutorController implements Serializable {
         }
     }
 
+    public Autor getAutor(java.lang.Integer id) {
+        return getFacade().find(id);
+    }
+
     public List<Autor> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
@@ -125,7 +129,7 @@ public class AutorController implements Serializable {
             }
             AutorController controller = (AutorController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "autorController");
-            return controller.getFacade().find(getKey(value));
+            return controller.getAutor(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {

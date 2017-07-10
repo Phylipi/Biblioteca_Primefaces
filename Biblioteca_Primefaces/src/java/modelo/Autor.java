@@ -28,18 +28,20 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alison
+ * @author GustavoSantos
  */
 @Entity
 @Table(name = "AUTOR")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Autor.findAll", query = "SELECT a FROM Autor a"),
-    @NamedQuery(name = "Autor.findById", query = "SELECT a FROM Autor a WHERE a.id = :id"),
-    @NamedQuery(name = "Autor.findByNome", query = "SELECT a FROM Autor a WHERE a.nome = :nome"),
-    @NamedQuery(name = "Autor.findByBiografia", query = "SELECT a FROM Autor a WHERE a.biografia = :biografia"),
-    @NamedQuery(name = "Autor.findByDataNasc", query = "SELECT a FROM Autor a WHERE a.dataNasc = :dataNasc")})
+    @NamedQuery(name = "Autor.findAll", query = "SELECT a FROM Autor a")
+    , @NamedQuery(name = "Autor.findById", query = "SELECT a FROM Autor a WHERE a.id = :id")
+    , @NamedQuery(name = "Autor.findByNome", query = "SELECT a FROM Autor a WHERE a.nome = :nome")
+    , @NamedQuery(name = "Autor.findByBiografia", query = "SELECT a FROM Autor a WHERE a.biografia = :biografia")
+    , @NamedQuery(name = "Autor.findByDataNasc", query = "SELECT a FROM Autor a WHERE a.dataNasc = :dataNasc")
+    , @NamedQuery(name = "Autor.findByImagem", query = "SELECT a FROM Autor a WHERE a.imagem = :imagem")})
 public class Autor implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,6 +59,9 @@ public class Autor implements Serializable {
     @Column(name = "DATA_NASC")
     @Temporal(TemporalType.DATE)
     private Date dataNasc;
+    @Size(max = 100)
+    @Column(name = "IMAGEM", length = 100)
+    private String imagem;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAutor")
     private Collection<Livro> livroCollection;
 
@@ -102,6 +107,14 @@ public class Autor implements Serializable {
 
     public void setDataNasc(Date dataNasc) {
         this.dataNasc = dataNasc;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 
     @XmlTransient
